@@ -1,2 +1,2 @@
-vagrant-java-sproutcore
+vagrant-BookMate
 =======================
