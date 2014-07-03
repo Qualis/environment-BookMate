@@ -1,6 +1,8 @@
 ---
 - hosts: all
 
+  include: ../vagrant-sproutcore/provisioning/playbook.yml
+
   tasks:
 
     - name: Install java

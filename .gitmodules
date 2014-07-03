@@ -1,0 +1,3 @@
+[submodule "vagrant-sproutcore"]
+	path = vagrant-sproutcore
+	url = https://github.com/Qualis/vagrant-sproutcore.git
