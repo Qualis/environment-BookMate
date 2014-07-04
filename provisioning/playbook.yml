@@ -1,11 +1,67 @@
 ---
 - hosts: all
 
-  include: ../vagrant-sproutcore/provisioning/playbook.yml
-
   tasks:
+
+    # run
+
+    - name: Install postgresql
+      apt: pkg=postgresql
+      sudo: yes
+      tags: run
 
     - name: Install java
       apt: pkg=openjdk-7-jre
+      sudo: yes
+      tags: run
+
+    - name: Install tomcat
+      apt: pkg=tomcat6
+      sudo: yes
+      tags: run
+
+    - name: Install tomcat native
+      apt: pkg=libtcnative-1
+      sudo: yes
+      tags: run
+
+    - name: Install solr-tomcat
+      apt: pkg=solr-tomcat
+      sudo: yes
+      tags: run
+
+    - name: Install apache
+      apt: pkg=apache2
+      sudo: yes
+      tags: run
+
+    # manage
+
+    - name: Install phppgadmin
+      apt: pkg=phppgadmin
+      sudo: yes
+      tags: manage
+
+    - name: Install tomcat6-admin
+      apt: pkg=tomcat6-admin
+      sudo: yes
+      tags: manage
+
+    # development
+
+    - name: Install maven
+      apt: pkg=maven2
+      sudo: yes
+      tags: development
+
+    - name: Install git
+      apt: pkg=git-core
+      sudo: yes
+      tags: development
+
+    - name: Install avahi
+      apt: pkg=avahi-daemon
+      sudo: yes
+      tags: development
 
   handlers:
