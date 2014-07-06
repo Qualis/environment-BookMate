@@ -1,2 +1,2 @@
-vagrant-BookMate
+environment-BookMate
 =======================
