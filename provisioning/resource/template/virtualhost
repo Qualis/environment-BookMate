@@ -1,0 +1,38 @@
+NameVirtualHost *:80
+NameVirtualHost *:443
+
+<VirtualHost *:80>
+    ServerName vagrant-bookmate.local
+    Redirect permanent / https://vagrant-bookmate.local/
+</VirtualHost>
+
+<IfModule mod_ssl.c>
+    <VirtualHost *:443>
+        ServerName vagrant-bookmate.local
+        DocumentRoot /BookMate/browser
+
+        SSLEngine on
+        SSLProxyEngine on
+        
+        ProxyRequests Off
+
+        <Proxy *>
+            Order deny,allow
+            Allow from all
+        </Proxy>
+
+        ProxyPass /BookMate/ http://localhost:8080/BookMate/
+        ProxyPassReverse /BookMate/ http://localhost:8080/BookMate/
+
+        ProxyPass /solr/ http://localhost:8080/solr/
+        ProxyPassReverse /solr/ http://localhost:8080/solr/
+
+        SSLCertificateFile /etc/ssl/certs/Qualis.crt
+        SSLCertificateKeyFile /etc/ssl/private/Qualis.key
+
+		<Directory />
+			Options FollowSymLinks
+			AllowOverride None
+		</Directory>
+    </VirtualHost>
+</IfModule>
