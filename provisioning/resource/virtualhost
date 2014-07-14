@@ -10,6 +10,7 @@ NameVirtualHost *:443
     <VirtualHost *:443>
         ServerName vagrant-bookmate.local
         DocumentRoot /BookMate/browser
+		DirectoryIndex index.html
 
         SSLEngine on
         SSLProxyEngine on
@@ -17,8 +18,7 @@ NameVirtualHost *:443
         ProxyRequests Off
 
         <Proxy *>
-            Order deny,allow
-            Allow from all
+            Require all granted
         </Proxy>
 
         ProxyPass /BookMate/ http://localhost:8080/BookMate/
@@ -33,6 +33,7 @@ NameVirtualHost *:443
 		<Directory />
 			Options FollowSymLinks
 			AllowOverride None
+			Require all granted
 		</Directory>
     </VirtualHost>
 </IfModule>
