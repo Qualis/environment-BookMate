@@ -42,6 +42,7 @@
       - Disable default VirtualHost
       - Enable VirtualHost
       - Install Apache module
+      - Set ServerName
       - Restart apache
 
     # manage
@@ -106,6 +107,9 @@
         - proxy_http
       sudo: yes
 
+    - name: Set ServerName
+      lineinfile: dest=/etc/apache2/apache2.conf line="ServerName localhost"
+      sudo: yes
 
     - name: Restart apache
       service: name=apache2 state=restarted
