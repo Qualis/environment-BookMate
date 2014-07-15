@@ -61,6 +61,9 @@
       apt: pkg=tomcat6-admin
       sudo: yes
       tags: manage
+      notify:
+      - Setup tomcat users
+      - Restart tomcat
 
     # development
 
@@ -80,6 +83,14 @@
       tags: development
 
   handlers:
+
+    - name: Setup tomcat users
+      copy: src=resource/tomcat-users.xml dest=/etc/tomcat6/tomcat-users.xml owner=tomcat6 group=tomcat6
+      sudo: yes
+
+    - name: Restart tomcat
+      service: name=tomcat6 state=restarted
+      sudo: yes
 
     - name: Generate SSL certificate
       command: openssl req -new -nodes -x509 -subj "/C=AU/ST=Victoria/L=Selby/O=IT/CN=vagrant-bookmate.local" -days 3650 -keyout /etc/ssl/private/Qualis.key -out /etc/ssl/certs/Qualis.crt -extensions v3_ca creates=/etc/ssl/certs/Qualis.crt
