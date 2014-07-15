@@ -51,6 +51,11 @@
       apt: pkg=phppgadmin
       sudo: yes
       tags: manage
+      notify:
+      - Add phppgadmin configuration
+      - Remove phppgadmin configuration
+      - Create phppgadmin symlink
+      - Restart apache
 
     - name: Install tomcat6-admin
       apt: pkg=tomcat6-admin
@@ -109,6 +114,21 @@
 
     - name: Set ServerName
       lineinfile: dest=/etc/apache2/apache2.conf line="ServerName localhost"
+      sudo: yes
+
+    - name: Add phppgadmin configuration
+      lineinfile: dest=/etc/apache2/conf.d/phppgadmin line="allow from all" insertafter='deny from all'
+      sudo: yes
+
+    - name: Remove phppgadmin configuration
+      lineinfile: dest=/etc/apache2/conf.d/phppgadmin line='{{item}}' state=absent
+      with_items:
+        - 'deny from all'
+        - 'allow from 127.0.0.0/255.0.0.0 ::1/128'
+      sudo: yes
+
+    - name: Create phppgadmin symlink
+      file: src=/etc/apache2/conf.d/phppgadmin dest=/etc/apache2/conf-enabled/phppgadmin.conf state=link owner=www-data group=www-data
       sudo: yes
 
     - name: Restart apache
