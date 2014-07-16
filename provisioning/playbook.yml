@@ -3,6 +3,9 @@
 
   tasks:
 
+    - include: ../environment-sproutcore/provisioning/sproutcore.yml
+    - include: ../environment-apache/provisioning/apache.yml
+
     # run
 
     - name: Install postgresql
@@ -30,19 +33,22 @@
       sudo: yes
       tags: run
 
-    - name: Install apache
-      apt: pkg=apache2
+    - name: Create BookMate document root
+      file: path=/BookMate/browser state=directory owner=www-data group=www-data
       sudo: yes
-      tags: run
+
+    - name: Add placeholder .html
+      copy: src=resource/placeholder.html dest=/BookMate/browser/index.html owner=www-data group=www-data
+      sudo: yes
+
+    - name: Setup VirtualHost
+      copy: src=resource/virtualhost dest=/etc/apache2/sites-available/qualis.conf owner=www-data group=www-data
+      sudo: yes
+
+    - name: Enable VirtualHost
+      shell: a2ensite qualis
+      sudo: yes
       notify:
-      - Generate SSL certificate
-      - Create BookMate document root
-      - Add placeholder .html
-      - Setup VirtualHost
-      - Disable default VirtualHost
-      - Enable VirtualHost
-      - Install Apache module
-      - Set ServerName
       - Restart apache
 
     # manage
@@ -92,41 +98,6 @@
       service: name=tomcat6 state=restarted
       sudo: yes
 
-    - name: Generate SSL certificate
-      command: openssl req -new -nodes -x509 -subj "/C=AU/ST=Victoria/L=Selby/O=IT/CN=vagrant-bookmate.local" -days 3650 -keyout /etc/ssl/private/Qualis.key -out /etc/ssl/certs/Qualis.crt -extensions v3_ca creates=/etc/ssl/certs/Qualis.crt
-      sudo: yes
-
-    - name: Disable default VirtualHost
-      shell: a2dissite 000-default
-      sudo: yes
-
-    - name: Create BookMate document root
-      file: path=/BookMate/browser state=directory owner=www-data group=www-data
-      sudo: yes
-
-    - name: Add placeholder .html
-      copy: src=resource/placeholder.html dest=/BookMate/browser/index.html owner=www-data group=www-data
-      sudo: yes
-
-    - name: Setup VirtualHost
-      copy: src=resource/virtualhost dest=/etc/apache2/sites-available/qualis.conf owner=www-data group=www-data
-      sudo: yes
-
-    - name: Enable VirtualHost
-      shell: a2ensite qualis
-      sudo: yes
-
-    - name: Install Apache module
-      apache2_module: state=present name={{item}}
-      with_items:
-        - ssl
-        - proxy_http
-      sudo: yes
-
-    - name: Set ServerName
-      lineinfile: dest=/etc/apache2/apache2.conf line="ServerName localhost"
-      sudo: yes
-
     - name: Add phppgadmin configuration
       lineinfile: dest=/etc/apache2/conf.d/phppgadmin line="allow from all" insertafter='deny from all'
       sudo: yes
@@ -142,6 +113,4 @@
       file: src=/etc/apache2/conf.d/phppgadmin dest=/etc/apache2/conf-enabled/phppgadmin.conf state=link owner=www-data group=www-data
       sudo: yes
 
-    - name: Restart apache
-      service: name=apache2 state=restarted
-      sudo: yes
+    - include: ../environment-apache/provisioning/apache-handler.yml

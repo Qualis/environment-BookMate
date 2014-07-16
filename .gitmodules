@@ -1,3 +1,6 @@
 [submodule "environment-sproutcore"]
 	path = environment-sproutcore
 	url = https://github.com/Qualis/environment-sproutcore.git
+[submodule "environment-apache"]
+	path = environment-apache
+	url = https://github.com/Qualis/environment-apache.git

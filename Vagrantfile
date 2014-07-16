@@ -11,10 +11,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network :private_network, ip: "1.0.0.2"
 
   config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "environment-sproutcore/provisioning/playbook.yml"
-  end
-
-  config.vm.provision "ansible" do |ansible|
     ansible.playbook = "provisioning/playbook.yml"
   end
 
