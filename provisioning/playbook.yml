@@ -5,13 +5,9 @@
 
     - include: ../environment-sproutcore/provisioning/sproutcore.yml
     - include: ../environment-apache/provisioning/apache.yml
+    - include: ../environment-postgresql/provisioning/postgresql.yml
 
     # run
-
-    - name: Install postgresql
-      apt: pkg=postgresql
-      sudo: yes
-      tags: run
 
     - name: Install java
       apt: pkg=openjdk-7-jre
@@ -53,16 +49,6 @@
 
     # manage
 
-    - name: Install phppgadmin
-      apt: pkg=phppgadmin
-      sudo: yes
-      tags: manage
-      notify:
-      - Add phppgadmin configuration
-      - Remove phppgadmin configuration
-      - Create phppgadmin symlink
-      - Restart apache
-
     - name: Install tomcat6-admin
       apt: pkg=tomcat6-admin
       sudo: yes
@@ -98,19 +84,6 @@
       service: name=tomcat6 state=restarted
       sudo: yes
 
-    - name: Add phppgadmin configuration
-      lineinfile: dest=/etc/apache2/conf.d/phppgadmin line="allow from all" insertafter='deny from all'
-      sudo: yes
-
-    - name: Remove phppgadmin configuration
-      lineinfile: dest=/etc/apache2/conf.d/phppgadmin line='{{item}}' state=absent
-      with_items:
-        - 'deny from all'
-        - 'allow from 127.0.0.0/255.0.0.0 ::1/128'
-      sudo: yes
-
-    - name: Create phppgadmin symlink
-      file: src=/etc/apache2/conf.d/phppgadmin dest=/etc/apache2/conf-enabled/phppgadmin.conf state=link owner=www-data group=www-data
-      sudo: yes
-
+    - include: ../environment-postgresql/provisioning/postgresql-handler.yml
     - include: ../environment-apache/provisioning/apache-handler.yml
+

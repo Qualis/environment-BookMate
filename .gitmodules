@@ -4,3 +4,6 @@
 [submodule "environment-apache"]
 	path = environment-apache
 	url = https://github.com/Qualis/environment-apache.git
+[submodule "environment-postgresql"]
+	path = environment-postgresql
+	url = https://github.com/Qualis/environment-postgresql.git
