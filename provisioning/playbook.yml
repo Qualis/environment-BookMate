@@ -6,23 +6,9 @@
     - include: ../environment-sproutcore/provisioning/sproutcore.yml
     - include: ../environment-apache/provisioning/apache.yml
     - include: ../environment-postgresql/provisioning/postgresql.yml
+    - include: ../environment-tomcat/provisioning/tomcat.yml
 
     # run
-
-    - name: Install java
-      apt: pkg=openjdk-7-jre
-      sudo: yes
-      tags: run
-
-    - name: Install tomcat
-      apt: pkg=tomcat6
-      sudo: yes
-      tags: run
-
-    - name: Install tomcat native
-      apt: pkg=libtcnative-1
-      sudo: yes
-      tags: run
 
     - name: Install solr-tomcat
       apt: pkg=solr-tomcat
@@ -47,16 +33,6 @@
       notify:
       - Restart apache
 
-    # manage
-
-    - name: Install tomcat6-admin
-      apt: pkg=tomcat6-admin
-      sudo: yes
-      tags: manage
-      notify:
-      - Setup tomcat users
-      - Restart tomcat
-
     # development
 
     - name: Install maven
@@ -76,14 +52,6 @@
 
   handlers:
 
-    - name: Setup tomcat users
-      copy: src=resource/tomcat-users.xml dest=/etc/tomcat6/tomcat-users.xml owner=tomcat6 group=tomcat6
-      sudo: yes
-
-    - name: Restart tomcat
-      service: name=tomcat6 state=restarted
-      sudo: yes
-
+    - include: ../environment-tomcat/provisioning/tomcat-handler.yml
     - include: ../environment-postgresql/provisioning/postgresql-handler.yml
     - include: ../environment-apache/provisioning/apache-handler.yml
-

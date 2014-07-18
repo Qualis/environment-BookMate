@@ -7,3 +7,6 @@
 [submodule "environment-postgresql"]
 	path = environment-postgresql
 	url = https://github.com/Qualis/environment-postgresql.git
+[submodule "environment-tomcat"]
+	path = environment-tomcat
+	url = https://github.com/Qualis/environment-tomcat.git
