@@ -8,7 +8,25 @@
     - include: ../environment-postgresql/provisioning/postgresql.yml
     - include: ../environment-tomcat/provisioning/tomcat.yml
 
+    # requirements for postgresql_db ansible module
+
+    - name: postgresql_db ansible module requirements
+      apt: pkg={{ item }}
+      sudo: yes
+      with_items:
+      - libpq-dev
+      - python-psycopg2
+
     # run
+
+    - name: Setup databases
+      postgresql_db: name={{ item }}
+      sudo: yes
+      sudo_user: postgres
+      with_items:
+        - book_mate
+        - book_mate_upgrade
+        - book_mate_create
 
     - name: Install solr-tomcat
       apt: pkg=solr-tomcat
