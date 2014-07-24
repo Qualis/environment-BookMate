@@ -8,7 +8,7 @@
     - include: ../environment-postgresql/provisioning/postgresql.yml
     - include: ../environment-tomcat/provisioning/tomcat.yml
 
-    # requirements for postgresql_db ansible module
+    # requirements for ansible module
 
     - name: postgresql_db ansible module requirements
       apt: pkg={{ item }}
@@ -19,8 +19,13 @@
 
     # run
 
+    - name: Create database user
+      postgresql_user: name=bookmate password=default
+      sudo: yes
+      sudo_user: postgres
+
     - name: Setup databases
-      postgresql_db: name={{ item }}
+      postgresql_db: name={{ item }} owner=bookmate
       sudo: yes
       sudo_user: postgres
       with_items:
