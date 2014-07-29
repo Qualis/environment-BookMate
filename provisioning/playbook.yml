@@ -30,8 +30,11 @@
       sudo_user: postgres
       with_items:
         - book_mate
-        - book_mate_upgrade
         - book_mate_create
+        - book_mate_upgrade
+        - book_mate_router
+        - book_mate_router_create
+        - book_mate_router_upgrade
 
     - name: Install solr-tomcat
       apt: pkg=solr-tomcat
