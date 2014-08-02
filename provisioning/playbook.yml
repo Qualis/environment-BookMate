@@ -20,7 +20,7 @@
     # run
 
     - name: Create database user
-      postgresql_user: name=run password=default
+      postgresql_user: name=run password=default role_attr_flags=CREATEDB,SUPERUSER
       sudo: yes
       sudo_user: postgres
 
