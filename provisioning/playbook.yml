@@ -3,6 +3,7 @@
 
   tasks:
 
+    - include: ../environment-core/provisioning/core.yml
     - include: ../environment-sproutcore/provisioning/sproutcore.yml
     - include: ../environment-apache/provisioning/apache.yml
     - include: ../environment-postgresql/provisioning/postgresql.yml
@@ -18,29 +19,6 @@
       - python-psycopg2
 
     # run
-
-    - name: Install Timezone data
-      apt: pkg=tzdata
-      sudo: yes
-      tags: run
-
-    - name: Set timezone
-      copy: content=Australia/Melbourne dest=/etc/timezone
-      sudo: yes
-      tags: run
-
-    - name: Set Local Time
-      shell: dpkg-reconfigure --frontend noninteractive tzdata
-      sudo: yes
-      tags: run
-
-    - name: Install NTP
-      apt: pkg={{ item }}
-      with_items:
-        - ntp
-        - ntpdate
-      sudo: yes
-      tags: run
 
     - name: Create database user
       postgresql_user: name={{ item }} password=default role_attr_flags=CREATEDB,SUPERUSER
@@ -112,11 +90,6 @@
 
     - name: Install git
       apt: pkg=git-core
-      sudo: yes
-      tags: development
-
-    - name: Install avahi
-      apt: pkg=avahi-daemon
       sudo: yes
       tags: development
 

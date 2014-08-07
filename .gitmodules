@@ -10,3 +10,6 @@
 [submodule "environment-tomcat"]
 	path = environment-tomcat
 	url = https://github.com/Qualis/environment-tomcat.git
+[submodule "environment-core"]
+	path = environment-core
+	url = https://github.com/Qualis/environment-core.git
