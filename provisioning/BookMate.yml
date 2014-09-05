@@ -1,0 +1,93 @@
+
+    - name: Create database user
+      postgresql_user: name={{ item }} password=default role_attr_flags=CREATEDB,SUPERUSER
+      with_items:
+        - run
+        - admin
+      sudo: yes
+      sudo_user: postgres
+      tags:
+      - BookMate
+      - run
+
+    - name: Setup production databases
+      postgresql_db: name={{ item }} owner=run
+      with_items:
+        - book_mate
+        - book_mate_router
+      sudo: yes
+      sudo_user: postgres
+      tags:
+      - BookMate
+      - run
+
+    - name: Install solr-tomcat
+      apt: pkg=solr-tomcat
+      sudo: yes
+      tags:
+      - BookMate
+      - run
+
+    - name: Create BookMate document root
+      file: path=/BookMate/browser state=directory owner=www-data group=www-data
+      sudo: yes
+      tags:
+      - BookMate
+      - run
+
+    - name: Create BookMate data directory
+      file: path=/BookMate/data state=directory owner=tomcat6 group=tomcat6
+      sudo: yes
+      tags:
+      - BookMate
+      - run
+
+    - name: Add placeholder .html
+      copy: src=resource/placeholder.html dest=/BookMate/browser/index.html owner=www-data group=www-data
+      sudo: yes
+      tags:
+      - BookMate
+      - run
+
+    - name: Setup VirtualHost
+      copy: src=resource/virtualhost dest=/etc/apache2/sites-available/qualis.conf owner=www-data group=www-data
+      sudo: yes
+      tags:
+      - BookMate
+      - run
+
+    - name: Enable VirtualHost
+      shell: a2ensite qualis
+      sudo: yes
+      notify:
+      - Restart apache
+      tags:
+      - BookMate
+      - run
+
+    - name: Setup test databases
+      postgresql_db: name={{ item }} owner=run
+      with_items:
+        - book_mate_create
+        - book_mate_upgrade
+        - book_mate_router_create
+        - book_mate_router_upgrade
+      sudo: yes
+      sudo_user: postgres
+      tags:
+      - BookMate
+      - test
+
+    - name: Install maven
+      apt: pkg=maven2
+      sudo: yes
+      tags:
+      - BookMate
+      - development
+
+    - name: Install git
+      apt: pkg=git-core
+      sudo: yes
+      tags:
+      - BookMate
+      - development
