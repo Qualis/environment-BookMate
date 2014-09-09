@@ -1,6 +1,6 @@
 
     - name: Create database user
-      postgresql_user: name={{ item }} password=default role_attr_flags=CREATEDB,SUPERUSER
+      postgresql_user: name={{ item }} password={{ admin_password }} role_attr_flags=CREATEDB,SUPERUSER
       with_items:
         - run
         - admin
