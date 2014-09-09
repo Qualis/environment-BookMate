@@ -12,6 +12,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "provisioning/playbook.yml"
+    ansible.extra_vars = {
+      admin_password: "default"
+    }
   end
 
   if Vagrant.has_plugin?("vagrant-cachier")
