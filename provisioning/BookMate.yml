@@ -38,6 +38,8 @@
     - name: Create BookMate data directory
       file: path=/BookMate/data state=directory owner=tomcat6 group=tomcat6
       sudo: yes
+      notify:
+      - Update tomcat administration password
       tags:
       - BookMate
       - run
