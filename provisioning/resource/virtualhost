@@ -2,7 +2,7 @@
     <VirtualHost *:443>
         ServerName vagrant-bookmate.local
         DocumentRoot /BookMate/browser
-		DirectoryIndex index.html
+        DirectoryIndex index.html
 
         SSLEngine on
         SSLProxyEngine on
