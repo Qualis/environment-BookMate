@@ -1,0 +1,11 @@
+---
+- hosts: all
+
+  roles:
+
+    - environment-core
+    - environment-sproutcore
+    - environment-apache
+    - environment-postgresql
+    - environment-tomcat
+    - ../environment-BookMate

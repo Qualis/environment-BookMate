@@ -45,14 +45,14 @@
       - run
 
     - name: Add placeholder .html
-      copy: src=resource/placeholder.html dest=/BookMate/browser/index.html owner=www-data group=www-data
+      copy: src=placeholder.html dest=/BookMate/browser/index.html owner=www-data group=www-data
       sudo: yes
       tags:
       - BookMate
       - run
 
     - name: Setup VirtualHost
-      copy: src=resource/virtualhost dest=/etc/apache2/sites-available/qualis.conf owner=www-data group=www-data
+      copy: src=virtualhost dest=/etc/apache2/sites-available/qualis.conf owner=www-data group=www-data
       sudo: yes
       tags:
       - BookMate
