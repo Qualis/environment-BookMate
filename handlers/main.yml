@@ -2,3 +2,7 @@
     - name: Update tomcat administration password
       lineinfile: dest=/var/lib/tomcat6/conf/tomcat-users.xml regexp=".*<user username=\"admin\" password=\"default\" roles=\"admin,manager\"/>" line="{{'\t'}}<user username=\"admin\" password=\"{{ admin_password }}\" roles=\"admin,manager\"/>"
       sudo: yes
+
+    - name: Setup BookMate tomcat defaults
+      copy: src=tomcat-default dest=/etc/default/tomcat6 owner=tomcat6 group=tomcat6 backup=yes
+      sudo: yes

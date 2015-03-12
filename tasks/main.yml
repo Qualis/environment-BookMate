@@ -40,6 +40,8 @@
       sudo: yes
       notify:
       - Update tomcat administration password
+      - Setup BookMate tomcat defaults
+      - Restart tomcat
       tags:
       - BookMate
       - run
