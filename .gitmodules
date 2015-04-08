@@ -1,15 +1,15 @@
 [submodule "environment-sproutcore"]
 	path = environment-sproutcore
-	url = https://github.com/Qualis/environment-sproutcore.git
+	url = https://github.com/svo/environment-sproutcore.git
 [submodule "environment-apache"]
 	path = environment-apache
-	url = https://github.com/Qualis/environment-apache.git
+	url = https://github.com/svo/environment-apache.git
 [submodule "environment-postgresql"]
 	path = environment-postgresql
-	url = https://github.com/Qualis/environment-postgresql.git
+	url = https://github.com/svo/environment-postgresql.git
 [submodule "environment-tomcat"]
 	path = environment-tomcat
-	url = https://github.com/Qualis/environment-tomcat.git
+	url = https://github.com/svo/environment-tomcat.git
 [submodule "environment-core"]
 	path = environment-core
-	url = https://github.com/Qualis/environment-core.git
+	url = https://github.com/svo/environment-core.git
